@@ -1,0 +1,20 @@
+export function PageHeader({
+  title,
+  description,
+  className,
+}: {
+  title: string;
+  description?: string;
+  className?: string;
+}) {
+  return (
+    <header className={className ?? "mb-6 space-y-1"}>
+      <h1 className="font-heading text-2xl font-semibold tracking-tight">
+        {title}
+      </h1>
+      {description ? (
+        <p className="text-sm text-muted-foreground">{description}</p>
+      ) : null}
+    </header>
+  );
+}
