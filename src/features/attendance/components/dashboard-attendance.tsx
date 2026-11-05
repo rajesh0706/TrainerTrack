@@ -9,12 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { AddSessionButton } from "@/features/attendance/components/add-session-button";
 import { QuickMarkButtons } from "@/features/attendance/components/quick-mark-buttons";
 import { SessionStatusBadge } from "@/features/attendance/components/session-status-badge";
 import { SESSION_STATUS_LABELS } from "@/features/attendance/labels";
 import type { AttendanceSummary } from "@/features/attendance/calculations";
-import type { ClientOption, SessionWithClient } from "@/features/attendance/types";
+import type { SessionWithClient } from "@/features/attendance/types";
 import { formatPercent, formatTime } from "@/lib/format";
 
 type Dashboard = {
@@ -31,13 +30,7 @@ type Dashboard = {
   recentSessions: SessionWithClient[];
 };
 
-export function DashboardAttendance({
-  data,
-  clients,
-}: {
-  data: Dashboard;
-  clients: ClientOption[];
-}) {
+export function DashboardAttendance({ data }: { data: Dashboard }) {
   return (
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -85,7 +78,6 @@ export function DashboardAttendance({
       <section className="space-y-3">
         <div className="flex items-center justify-between gap-3">
           <h2 className="font-heading text-lg font-medium">Today’s sessions</h2>
-          <AddSessionButton clients={clients} />
         </div>
         {data.todaysSessions.length === 0 ? (
           <EmptyState

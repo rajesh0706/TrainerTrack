@@ -75,7 +75,7 @@ Override with `SEED_TRAINER_EMAIL` and `SEED_TRAINER_PASSWORD`.
 
 ## App map
 
-**Trainer:** `/dashboard`, `/clients`, `/attendance`, `/reports`, `/settings`
+**Trainer:** `/dashboard` (all-clients schedule calendar + .ics download for Google Calendar), `/clients`, `/attendance`, `/reports`, `/settings`
 
 - Invite a client from their overview (service role + email). They set a password from the invite mail and use `/me`.
 - **Delete all data** on overview permanently removes the client, sessions, measurements, photos, lab results, and storage objects (type the full name to confirm).

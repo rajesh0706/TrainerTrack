@@ -52,3 +52,18 @@ export function shiftIsoDate(value: string, days: number) {
 export function normalizeTime(value: string) {
   return value.length === 5 ? `${value}:00` : value.slice(0, 8);
 }
+
+export function sessionDateTime(date: string, time: string) {
+  return parseISO(`${date}T${normalizeTime(time)}`);
+}
+
+export function addMinutesToSession(date: string, time: string, minutes: number) {
+  return new Date(sessionDateTime(date, time).getTime() + minutes * 60_000);
+}
+
+export function calendarGridRange(month: Date) {
+  return {
+    from: isoDate(startOfWeek(startOfMonth(month), { weekStartsOn: WEEK_STARTS_ON })),
+    to: isoDate(endOfWeek(endOfMonth(month), { weekStartsOn: WEEK_STARTS_ON })),
+  };
+}
