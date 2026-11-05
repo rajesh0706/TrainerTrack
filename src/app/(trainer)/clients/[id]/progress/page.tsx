@@ -39,7 +39,7 @@ export default async function ClientProgressPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <MeasurementForm clientId={client.id} disabled={!consented} />
+          <MeasurementForm clientId={client.id} />
         </CardContent>
       </Card>
       <ProgressCharts measurements={measurements} />

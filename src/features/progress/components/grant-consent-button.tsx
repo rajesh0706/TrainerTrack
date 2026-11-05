@@ -21,8 +21,8 @@ export function GrantConsentButton() {
           aria-describedby="consent-privacy"
         />
         <span>
-          I consent to TrainerTrack storing my measurements and progress photos
-          so my trainer and I can track health progress.
+          I consent to TrainerTrack storing my measurements, progress photos, and
+          blood-work results so my trainer and I can track health progress.
         </span>
       </label>
       <p id="consent-privacy" className="text-sm text-muted-foreground">

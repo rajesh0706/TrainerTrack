@@ -6,6 +6,7 @@ import {
   BarChart3Icon,
   CalendarCheckIcon,
   DumbbellIcon,
+  FlaskConicalIcon,
   LayoutDashboardIcon,
   SettingsIcon,
   UsersIcon,
@@ -33,6 +34,7 @@ const clientNav: NavItem[] = [
   { href: "/me", label: "Dashboard", icon: LayoutDashboardIcon },
   { href: "/me/attendance", label: "Attendance", icon: CalendarCheckIcon },
   { href: "/me/progress", label: "Progress", icon: DumbbellIcon },
+  { href: "/me/test-results", label: "Labs", icon: FlaskConicalIcon },
   { href: "/me/reports", label: "Reports", icon: BarChart3Icon },
 ];
 

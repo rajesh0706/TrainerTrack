@@ -23,8 +23,8 @@ export default function PrivacyPage() {
           <li>Account email, name, and optional phone (authentication).</li>
           <li>Client records: contact details, goals, session notes.</li>
           <li>
-            Health data: body measurements and progress photos, only after
-            consent is recorded.
+            Health data: body measurements, progress photos, and blood-work
+            results, only after consent is recorded.
           </li>
           <li>Session attendance and optional workout logs.</li>
         </ul>
@@ -33,10 +33,10 @@ export default function PrivacyPage() {
         <h2 className="text-lg font-medium">Legal basis and consent</h2>
         <p className="text-sm text-muted-foreground">
           Attendance and contact details are processed to run the training
-          relationship. Measurements and photos are stored only when the trainer
-          ticks the health-data consent box, or when you confirm consent in the
-          client portal. You can refuse photos and measurements and still keep a
-          client record.
+          relationship. Measurements, photos, and blood-work results are stored
+          only when the trainer ticks the health-data consent box, or when you
+          confirm consent in the client portal. You can refuse this health data
+          and still keep a client record.
         </p>
       </section>
       <section className="space-y-2">

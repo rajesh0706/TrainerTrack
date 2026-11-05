@@ -38,7 +38,7 @@ export default async function ClientPhotosPage({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <PhotoUploadForm clientId={client.id} disabled={!consented} />
+          <PhotoUploadForm clientId={client.id} />
         </CardContent>
       </Card>
       <PhotoGallery clientId={client.id} photos={photos} />

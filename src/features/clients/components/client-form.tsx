@@ -261,7 +261,7 @@ export function ClientForm({
                 />
                 <div className="grid gap-1">
                   <FormLabel className="font-normal">
-                    Client consents to storing measurements and progress photos
+                    Client consents to storing measurements, photos, and blood work
                   </FormLabel>
                   <FormDescription id="consent-help">
                     Health data is private and only visible to this trainer and

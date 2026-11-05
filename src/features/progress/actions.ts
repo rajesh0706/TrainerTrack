@@ -37,7 +37,9 @@ export async function createMeasurementAction(
 
   const client = await canAccessClient(user, parsed.data.client_id);
   if (!client) return { error: "Client not found" };
-  if (!client.consent_health_data) return { error: CONSENT_ERROR };
+  if (user.profile.role !== "trainer" && !client.consent_health_data) {
+    return { error: CONSENT_ERROR };
+  }
 
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
@@ -76,7 +78,6 @@ export async function updateMeasurementAction(
   if (!client || user.profile.role !== "trainer") {
     return { error: "Client not found" };
   }
-  if (!client.consent_health_data) return { error: CONSENT_ERROR };
 
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
@@ -136,7 +137,9 @@ export async function createPhotoRecordAction(
 
   const client = await canAccessClient(user, parsed.data.client_id);
   if (!client) return { error: "Client not found" };
-  if (!client.consent_health_data) return { error: CONSENT_ERROR };
+  if (user.profile.role !== "trainer" && !client.consent_health_data) {
+    return { error: CONSENT_ERROR };
+  }
 
   const supabase = await createServerSupabaseClient();
   const { data, error } = await supabase
@@ -202,5 +205,6 @@ export async function grantOwnConsentAction(): Promise<{ error: string | null }>
     .maybeSingle();
   if (data) revalidateProgress(data.id);
   revalidatePath("/me/progress");
+  revalidatePath("/me/test-results");
   return { error: null };
 }

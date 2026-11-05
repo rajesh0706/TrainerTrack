@@ -20,6 +20,7 @@ A web app for a personal trainer to manage clients, attendance, progress photos 
 2. Open **SQL Editor** and run, in order:
    - `supabase/migrations/0001_init.sql` — tables, indexes, RLS, auth trigger, private buckets `progress-photos` and `branding`
    - `supabase/migrations/0002_link_invited_clients.sql` — links invited users to `clients.profile_id` by email and adds `grant_own_health_consent`
+   - `supabase/migrations/0003_lab_results.sql` — blood-work / test results table and RLS
 3. In **Authentication → URL Configuration**, add:
    - Site URL: `http://localhost:3000`
    - Redirect URLs: `http://localhost:3000/login`, `http://localhost:3000/reset-password`
@@ -77,10 +78,11 @@ Override with `SEED_TRAINER_EMAIL` and `SEED_TRAINER_PASSWORD`.
 **Trainer:** `/dashboard`, `/clients`, `/attendance`, `/reports`, `/settings`
 
 - Invite a client from their overview (service role + email). They set a password from the invite mail and use `/me`.
-- **Delete all data** on overview permanently removes the client, sessions, measurements, photos, and storage objects (type the full name to confirm).
+- **Delete all data** on overview permanently removes the client, sessions, measurements, photos, lab results, and storage objects (type the full name to confirm).
+- Client **Test Results** records blood work (date, notes, B12, Vitamin D, hemogram, hemoglobin, and related labs).
 - Settings: profile, PDF business name/logo (`branding/{trainerId}/logo.jpg`), JSON data export.
 
-**Client:** `/me`, `/me/attendance` (read-only), `/me/progress` (add measurements/photos after consent), `/me/reports` (own files only).
+**Client:** `/me`, `/me/attendance` (read-only), `/me/progress` (add measurements/photos after consent), `/me/test-results` (read-only labs), `/me/reports` (own files only).
 
 **Public:** `/privacy`
 

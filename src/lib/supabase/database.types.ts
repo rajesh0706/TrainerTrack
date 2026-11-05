@@ -88,6 +88,29 @@ export type WorkoutLog = {
   created_at: string;
 };
 
+export type LabResult = {
+  id: string;
+  client_id: string;
+  tested_on: string;
+  b12: string | null;
+  vitamin_d: string | null;
+  hemogram: string | null;
+  hemoglobin: string | null;
+  homocysteine: string | null;
+  c_reactive_protein: string | null;
+  serum_creatinine: string | null;
+  serum_ferritin: string | null;
+  urea: string | null;
+  uric_acid: string | null;
+  calcium: string | null;
+  electrolytes: string | null;
+  lipids: string | null;
+  fasting_sugar: string | null;
+  t3_t4_tsh: string | null;
+  notes: string | null;
+  created_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -147,6 +170,15 @@ export type Database = {
           created_at?: string;
         };
         Update: Partial<WorkoutLog>;
+        Relationships: [];
+      };
+      lab_results: {
+        Row: LabResult;
+        Insert: Omit<LabResult, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<LabResult>;
         Relationships: [];
       };
     };

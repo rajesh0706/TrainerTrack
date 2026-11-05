@@ -32,13 +32,16 @@ export async function GET() {
     }
 
     const clientIds = (clients ?? []).map((client) => client.id);
-    const [sessions, measurements, photos] = await Promise.all([
+    const [sessions, measurements, photos, labs] = await Promise.all([
       supabase.from("sessions").select("*").eq("trainer_id", user.id),
       clientIds.length
         ? supabase.from("measurements").select("*").in("client_id", clientIds)
         : Promise.resolve({ data: [], error: null }),
       clientIds.length
         ? supabase.from("progress_photos").select("*").in("client_id", clientIds)
+        : Promise.resolve({ data: [], error: null }),
+      clientIds.length
+        ? supabase.from("lab_results").select("*").in("client_id", clientIds)
         : Promise.resolve({ data: [], error: null }),
     ]);
 
@@ -51,6 +54,7 @@ export async function GET() {
         sessions: sessions.data ?? [],
         measurements: measurements.data ?? [],
         progress_photos: photos.data ?? [],
+        lab_results: labs.data ?? [],
       },
       {
         headers: {
@@ -70,10 +74,11 @@ export async function GET() {
     return NextResponse.json({ error: "No linked client record" }, { status: 404 });
   }
 
-  const [sessions, measurements, photos] = await Promise.all([
+  const [sessions, measurements, photos, labs] = await Promise.all([
     supabase.from("sessions").select("*").eq("client_id", client.id),
     supabase.from("measurements").select("*").eq("client_id", client.id),
     supabase.from("progress_photos").select("*").eq("client_id", client.id),
+    supabase.from("lab_results").select("*").eq("client_id", client.id),
   ]);
 
   return NextResponse.json(
@@ -85,6 +90,7 @@ export async function GET() {
       sessions: sessions.data ?? [],
       measurements: measurements.data ?? [],
       progress_photos: photos.data ?? [],
+      lab_results: labs.data ?? [],
     },
     {
       headers: {
