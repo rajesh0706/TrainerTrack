@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 export const SESSION_STATUSES = [
+  "scheduled",
   "attended",
   "missed",
-  "cancelled",
   "late",
+  "cancelled",
 ] as const;
 export const SESSION_TYPES = ["personal", "group", "online"] as const;
 export const QUICK_STATUSES = ["attended", "missed", "late"] as const;

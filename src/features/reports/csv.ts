@@ -27,16 +27,17 @@ function attendanceCsv(report: Extract<BuiltReport, { kind: "attendance" }>) {
       ["email", report.clientEmail],
       ["from", report.meta.from],
       ["to", report.meta.to],
-      ["scheduled", report.summary.scheduled],
+      ["counted", report.summary.scheduled],
       ["attended", report.summary.attended],
       ["missed", report.summary.missed],
       ["late", report.summary.late],
       ["cancelled", report.summary.cancelled],
+      ["upcoming", report.summary.planned],
       ["attendance_pct", report.summary.rate],
     ],
   );
   const months = table(
-    ["month", "scheduled", "attended", "missed", "late", "cancelled", "attendance_pct"],
+    ["month", "counted", "attended", "missed", "late", "cancelled", "upcoming", "attendance_pct"],
     report.months.map((month) => [
       month.month,
       month.summary.scheduled,
@@ -44,6 +45,7 @@ function attendanceCsv(report: Extract<BuiltReport, { kind: "attendance" }>) {
       month.summary.missed,
       month.summary.late,
       month.summary.cancelled,
+      month.summary.planned,
       month.summary.rate,
     ]),
   );

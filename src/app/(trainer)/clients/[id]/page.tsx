@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { getBillingPlan } from "@/features/billing/queries";
 import { ClientOverview } from "@/features/clients/components/client-overview";
 import {
   getClientOverviewStats,
@@ -26,13 +27,17 @@ export default async function ClientOverviewPage({
   const user = await requireRole("trainer");
   const { id } = await params;
   const client = await getTrainerClient(user.id, id);
-  const stats = await getClientOverviewStats(client.id);
+  const [stats, plan] = await Promise.all([
+    getClientOverviewStats(client.id),
+    getBillingPlan(client.id),
+  ]);
 
   return (
     <ClientOverview
       client={client}
       attendance={stats.attendance}
       weight={stats.weight}
+      plan={plan}
     />
   );
 }

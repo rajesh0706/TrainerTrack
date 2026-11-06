@@ -112,6 +112,7 @@ export function AttendanceCalendar({
 
 export function AttendanceLegend() {
   const items = [
+    ["scheduled", "Scheduled"],
     ["attended", "Attended"],
     ["late", "Late"],
     ["missed", "Missed"],

@@ -1,8 +1,16 @@
 export type UserRole = "trainer" | "client";
 export type ClientStatus = "active" | "paused" | "archived";
 export type SessionType = "personal" | "group" | "online";
-export type SessionStatus = "attended" | "missed" | "cancelled" | "late";
+export type SessionStatus =
+  | "scheduled"
+  | "attended"
+  | "missed"
+  | "cancelled"
+  | "late";
 export type PhotoLabel = "front" | "side" | "back" | "other";
+export type BillingCadence = "monthly" | "quarterly" | "yearly";
+export type BillingPlanStatus = "active" | "paused";
+export type PaymentMethod = "cash" | "upi" | "card" | "other";
 
 export type Profile = {
   id: string;
@@ -84,6 +92,33 @@ export type WorkoutLog = {
   sets: number | null;
   reps: number | null;
   weight_kg: number | null;
+  notes: string | null;
+  created_at: string;
+};
+
+export type BillingPlan = {
+  id: string;
+  client_id: string;
+  amount: number;
+  currency: string;
+  cadence: BillingCadence;
+  starts_on: string;
+  next_due_on: string;
+  status: BillingPlanStatus;
+  notes: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type Payment = {
+  id: string;
+  client_id: string;
+  paid_on: string;
+  amount: number;
+  currency: string;
+  period_start: string;
+  period_end: string;
+  method: PaymentMethod;
   notes: string | null;
   created_at: string;
 };
@@ -181,6 +216,25 @@ export type Database = {
         Update: Partial<LabResult>;
         Relationships: [];
       };
+      billing_plans: {
+        Row: BillingPlan;
+        Insert: Omit<BillingPlan, "id" | "created_at" | "updated_at"> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        };
+        Update: Partial<BillingPlan>;
+        Relationships: [];
+      };
+      payments: {
+        Row: Payment;
+        Insert: Omit<Payment, "id" | "created_at"> & {
+          id?: string;
+          created_at?: string;
+        };
+        Update: Partial<Payment>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: {
@@ -195,6 +249,9 @@ export type Database = {
       session_type: SessionType;
       session_status: SessionStatus;
       photo_label: PhotoLabel;
+      billing_cadence: BillingCadence;
+      billing_plan_status: BillingPlanStatus;
+      payment_method: PaymentMethod;
     };
     CompositeTypes: Record<string, never>;
   };

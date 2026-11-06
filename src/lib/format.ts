@@ -30,6 +30,22 @@ export function formatCm(value: number | null | undefined) {
   return `${formatNumber(value, { maximumFractionDigits: 1 })} cm`;
 }
 
+export function formatMoney(
+  value: number | null | undefined,
+  currency = "INR",
+) {
+  if (value == null || Number.isNaN(value)) return "—";
+  try {
+    return new Intl.NumberFormat(undefined, {
+      style: "currency",
+      currency,
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch {
+    return `${formatNumber(value, { maximumFractionDigits: 2 })} ${currency}`;
+  }
+}
+
 export function formatPercent(value: number | null | undefined, digits = 0) {
   if (value == null) return "—";
   return `${formatNumber(value, { maximumFractionDigits: digits, minimumFractionDigits: digits })}%`;

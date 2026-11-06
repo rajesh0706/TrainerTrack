@@ -5,6 +5,7 @@ export type AttendanceSummary = {
   missed: number;
   cancelled: number;
   late: number;
+  planned: number;
   total: number;
   scheduled: number;
   present: number;
@@ -14,21 +15,31 @@ export type AttendanceSummary = {
 export function summarizeAttendance(
   statuses: readonly SessionStatus[],
 ): AttendanceSummary {
-  const counts = {
+  const counts: Record<SessionStatus, number> = {
+    scheduled: 0,
     attended: 0,
     missed: 0,
     cancelled: 0,
     late: 0,
-    total: statuses.length,
   };
 
   for (const status of statuses) {
     counts[status] += 1;
   }
 
-  const scheduled = counts.attended + counts.missed + counts.late;
+  const counted = counts.attended + counts.missed + counts.late;
   const present = counts.attended + counts.late;
-  const rate = scheduled === 0 ? null : (present / scheduled) * 100;
+  const rate = counted === 0 ? null : (present / counted) * 100;
 
-  return { ...counts, scheduled, present, rate };
+  return {
+    attended: counts.attended,
+    missed: counts.missed,
+    cancelled: counts.cancelled,
+    late: counts.late,
+    planned: counts.scheduled,
+    total: statuses.length,
+    scheduled: counted,
+    present,
+    rate,
+  };
 }

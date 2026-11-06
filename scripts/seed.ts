@@ -99,10 +99,12 @@ async function main() {
     }
 
     const sessions = [];
-    for (let day = start; day <= today; day = addDays(day, 1)) {
+    const horizon = addDays(today, 21);
+    for (let day = start; day <= horizon; day = addDays(day, 1)) {
       const weekday = day.getDay();
       if (weekday !== 1 && weekday !== 4) continue;
       const stamp = Math.floor(day.getTime() / 86400000) + index;
+      const future = day > today;
       sessions.push({
         client_id: clientId,
         trainer_id: trainerId,
@@ -110,7 +112,7 @@ async function main() {
         start_time: weekday === 1 ? "07:00" : "18:00",
         duration_min: 60,
         type: "personal" as const,
-        status: STATUSES[stamp % STATUSES.length],
+        status: future ? "scheduled" : STATUSES[stamp % STATUSES.length],
       });
     }
 

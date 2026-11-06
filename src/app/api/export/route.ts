@@ -32,7 +32,7 @@ export async function GET() {
     }
 
     const clientIds = (clients ?? []).map((client) => client.id);
-    const [sessions, measurements, photos, labs] = await Promise.all([
+    const [sessions, measurements, photos, labs, plans, payments] = await Promise.all([
       supabase.from("sessions").select("*").eq("trainer_id", user.id),
       clientIds.length
         ? supabase.from("measurements").select("*").in("client_id", clientIds)
@@ -42,6 +42,12 @@ export async function GET() {
         : Promise.resolve({ data: [], error: null }),
       clientIds.length
         ? supabase.from("lab_results").select("*").in("client_id", clientIds)
+        : Promise.resolve({ data: [], error: null }),
+      clientIds.length
+        ? supabase.from("billing_plans").select("*").in("client_id", clientIds)
+        : Promise.resolve({ data: [], error: null }),
+      clientIds.length
+        ? supabase.from("payments").select("*").in("client_id", clientIds)
         : Promise.resolve({ data: [], error: null }),
     ]);
 
@@ -55,6 +61,8 @@ export async function GET() {
         measurements: measurements.data ?? [],
         progress_photos: photos.data ?? [],
         lab_results: labs.data ?? [],
+        billing_plans: plans.data ?? [],
+        payments: payments.data ?? [],
       },
       {
         headers: {

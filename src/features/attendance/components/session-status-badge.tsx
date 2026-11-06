@@ -3,6 +3,7 @@ import { SESSION_STATUS_LABELS } from "@/features/attendance/labels";
 import type { SessionStatus } from "@/lib/supabase/database.types";
 
 const variants: Record<SessionStatus, "default" | "secondary" | "outline" | "destructive"> = {
+  scheduled: "outline",
   attended: "default",
   late: "secondary",
   missed: "destructive",

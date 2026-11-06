@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormField,
+  FormDescription,
   FormItem,
   FormLabel,
   FormMessage,
@@ -51,7 +52,7 @@ function defaults(
     start_time: session ? formatTime(session.start_time) : "09:00",
     duration_min: session?.duration_min ?? 60,
     type: session?.type ?? "personal",
-    status: session?.status ?? "attended",
+    status: session?.status ?? "scheduled",
     notes: session?.notes ?? "",
   };
 }
@@ -202,6 +203,9 @@ export function SessionForm({
                     ))}
                   </SelectContent>
                 </Select>
+                <FormDescription>
+                  Use Scheduled for upcoming sessions. Mark Attended, Late, or Missed after they happen.
+                </FormDescription>
                 <FormMessage />
               </FormItem>
             )}

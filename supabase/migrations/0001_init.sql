@@ -22,7 +22,7 @@ exception when duplicate_object then null;
 end $$;
 
 do $$ begin
-  create type public.session_status as enum ('attended', 'missed', 'cancelled', 'late');
+  create type public.session_status as enum ('scheduled', 'attended', 'missed', 'cancelled', 'late');
 exception when duplicate_object then null;
 end $$;
 

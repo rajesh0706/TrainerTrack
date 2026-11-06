@@ -27,6 +27,10 @@ export default function PrivacyPage() {
             results, only after consent is recorded.
           </li>
           <li>Session attendance and optional workout logs.</li>
+          <li>
+            Trainer-only billing: fee plan (amount, cadence, next due) and
+            payment history. Linked clients cannot see this.
+          </li>
         </ul>
       </section>
       <section className="space-y-2">
@@ -44,8 +48,8 @@ export default function PrivacyPage() {
         <p className="text-sm text-muted-foreground">
           Row Level Security in the database limits each trainer to their own
           clients. A client login can only read (and add) their own linked
-          record. Photos sit in a private storage bucket; the app uses short-lived
-          signed URLs, not public links.
+          record, and cannot see billing. Photos sit in a private storage bucket;
+          the app uses short-lived signed URLs, not public links.
         </p>
       </section>
       <section className="space-y-2">
@@ -59,7 +63,8 @@ export default function PrivacyPage() {
           <li>
             <strong>Erasure:</strong> trainers can use “Delete all data” on a
             client overview (name confirmation). That removes the client row and
-            cascaded sessions, measurements, photos, and storage objects.
+            cascaded sessions, measurements, photos, lab results, billing, and
+            storage objects.
           </li>
           <li>
             <strong>Rectification:</strong> trainers can edit client records;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,24 +19,30 @@ import { StatusBadge } from "@/features/clients/components/status-badge";
 import { GENDER_LABELS } from "@/features/clients/labels";
 import type { AttendanceSummary } from "@/features/attendance/calculations";
 import type { MeasurementChange } from "@/features/progress/calculations";
+import { isoDate } from "@/features/attendance/dates";
+import { isBillingOverdue } from "@/features/billing/calculations";
+import { BILLING_CADENCE_LABELS } from "@/features/billing/labels";
 import {
   formatCm,
   formatDate,
   formatKg,
+  formatMoney,
   formatPercent,
   signedNumber,
 } from "@/lib/format";
-import type { Client } from "@/lib/supabase/database.types";
+import type { BillingPlan, Client } from "@/lib/supabase/database.types";
 import type { GENDERS } from "@/features/clients/schemas";
 
 export function ClientOverview({
   client,
   attendance,
   weight,
+  plan,
 }: {
   client: Client;
   attendance: AttendanceSummary;
   weight: MeasurementChange | null;
+  plan: BillingPlan | null;
 }) {
   const [editOpen, setEditOpen] = useState(false);
   const [archiveOpen, setArchiveOpen] = useState(false);
@@ -59,7 +66,7 @@ export function ClientOverview({
         </Button>
         <DeleteClientButton client={client} />
       </div>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Attendance"
           value={formatPercent(attendance.rate)}
@@ -68,7 +75,7 @@ export function ClientOverview({
         <StatCard
           label="Total sessions"
           value={String(attendance.total)}
-          hint={`${attendance.cancelled} cancelled`}
+          hint={`${attendance.planned} scheduled · ${attendance.cancelled} cancelled`}
         />
         <StatCard
           label="Weight change"
@@ -79,6 +86,7 @@ export function ClientOverview({
               : "No measurements yet"
           }
         />
+        <BillingStatCard clientId={client.id} plan={plan} />
       </div>
       <Card>
         <CardHeader>
@@ -118,6 +126,33 @@ export function ClientOverview({
         onOpenChange={setArchiveOpen}
       />
     </div>
+  );
+}
+
+function BillingStatCard({
+  clientId,
+  plan,
+}: {
+  clientId: string;
+  plan: BillingPlan | null;
+}) {
+  const today = isoDate(new Date());
+  const overdue = plan ? isBillingOverdue(plan.next_due_on, today, plan.status) : false;
+  const value = plan
+    ? `${formatMoney(plan.amount, plan.currency)} / ${BILLING_CADENCE_LABELS[plan.cadence].toLowerCase()}`
+    : "No plan";
+  const hint = !plan
+    ? "Set a fee on the Billing tab"
+    : plan.status === "paused"
+      ? `Paused · next due ${formatDate(plan.next_due_on)}`
+      : overdue
+        ? `Overdue since ${formatDate(plan.next_due_on)}`
+        : `Next due ${formatDate(plan.next_due_on)}`;
+
+  return (
+    <Link href={`/clients/${clientId}/billing`} className="rounded-xl">
+      <StatCard label="Billing" value={value} hint={hint} />
+    </Link>
   );
 }
 

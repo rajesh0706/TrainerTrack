@@ -12,7 +12,11 @@ import {
   shiftIsoDate,
   weekBounds,
 } from "@/features/attendance/dates";
-import { SESSION_STATUS_DOT, SESSION_TYPE_LABELS } from "@/features/attendance/labels";
+import {
+  SESSION_STATUS_DOT,
+  SESSION_STATUS_LABELS,
+  SESSION_TYPE_LABELS,
+} from "@/features/attendance/labels";
 import type { ClientOption, SessionWithClient } from "@/features/attendance/types";
 import { formatTime } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -23,7 +27,7 @@ function slotClass(session: SessionWithClient, today: string) {
   if (session.status === "cancelled") {
     return "border-zinc-300 bg-zinc-100 text-zinc-600 dark:border-zinc-700 dark:bg-zinc-800/80 dark:text-zinc-300";
   }
-  if (session.session_date > today) {
+  if (session.status === "scheduled" || session.session_date > today) {
     return "border-sky-200 bg-sky-50 text-sky-950 dark:border-sky-800 dark:bg-sky-950/50 dark:text-sky-100";
   }
   if (session.status === "missed") {
@@ -265,12 +269,11 @@ export function TrainerScheduleCalendar({
                     <p className="text-muted-foreground">
                       {formatTime(session.start_time)} · {session.duration_min} min ·{" "}
                       {SESSION_TYPE_LABELS[session.type]}
-                      {session.session_date > today ? " · Scheduled" : null}
                     </p>
                   </div>
-                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground capitalize">
+                  <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <span className={cn("size-2 rounded-full", SESSION_STATUS_DOT[session.status])} />
-                    {session.session_date > today ? "Upcoming" : session.status}
+                    {SESSION_STATUS_LABELS[session.status]}
                   </span>
                 </li>
               ))}

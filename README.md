@@ -21,6 +21,8 @@ A web app for a personal trainer to manage clients, attendance, progress photos 
    - `supabase/migrations/0001_init.sql` — tables, indexes, RLS, auth trigger, private buckets `progress-photos` and `branding`
    - `supabase/migrations/0002_link_invited_clients.sql` — links invited users to `clients.profile_id` by email and adds `grant_own_health_consent`
    - `supabase/migrations/0003_lab_results.sql` — blood-work / test results table and RLS
+   - `supabase/migrations/0004_session_status_scheduled.sql` — adds `scheduled` for future sessions
+   - `supabase/migrations/0005_billing.sql` — billing plans and payment history (trainer only)
 3. In **Authentication → URL Configuration**, add:
    - Site URL: `http://localhost:3000`
    - Redirect URLs: `http://localhost:3000/login`, `http://localhost:3000/reset-password`
@@ -78,15 +80,16 @@ Override with `SEED_TRAINER_EMAIL` and `SEED_TRAINER_PASSWORD`.
 **Trainer:** `/dashboard` (all-clients schedule calendar + .ics download for Google Calendar), `/clients`, `/attendance`, `/reports`, `/settings`
 
 - Invite a client from their overview (service role + email). They set a password from the invite mail and use `/me`.
-- **Delete all data** on overview permanently removes the client, sessions, measurements, photos, lab results, and storage objects (type the full name to confirm).
+- **Delete all data** on overview permanently removes the client, sessions, measurements, photos, lab results, billing, and storage objects (type the full name to confirm).
 - Client **Test Results** records blood work (date, notes, B12, Vitamin D, hemogram, hemoglobin, and related labs).
+- Client **Billing** (trainer only) stores a monthly/quarterly/yearly plan and a payment log. Recording a payment advances the next due date. Overview shows amount, cadence, and next due.
 - Settings: profile, PDF business name/logo (`branding/{trainerId}/logo.jpg`), JSON data export.
 
 **Client:** `/me`, `/me/attendance` (read-only), `/me/progress` (add measurements/photos after consent), `/me/test-results` (read-only labs), `/me/reports` (own files only).
 
 **Public:** `/privacy`
 
-Health measurements and photos require a consent checkbox (trainer form or client portal). Attendance percentage is `(attended + late) / (attended + missed + late)`; cancelled is excluded.
+Health measurements and photos require a consent checkbox (trainer form or client portal). Attendance percentage is `(attended + late) / (attended + missed + late)`; cancelled and scheduled (upcoming) sessions are excluded.
 
 ## Scripts
 

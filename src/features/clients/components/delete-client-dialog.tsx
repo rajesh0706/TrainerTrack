@@ -50,7 +50,7 @@ export function DeleteClientButton({ client }: { client: Client }) {
             <AlertDialogTitle>Delete {client.full_name}?</AlertDialogTitle>
             <AlertDialogDescription>
               This permanently removes the client, sessions, measurements, photos,
-              and workout logs. This cannot be undone.
+              lab results, billing, and workout logs. This cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <div className="grid gap-1.5">
